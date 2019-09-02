@@ -104,29 +104,31 @@ def search(query, num_results=10):
 	of the format (name, url)
 	"""
 	data = download(query, num_results)
-	results = re.findall(r'\<h3.*?\>.*?\<\/h3\>', data, re.IGNORECASE)
+	results = re.findall(r'\<div class="s".*?\>.*?\<\/div\>', data, re.IGNORECASE)
 	if results is None or len(results) == 0:
 		print('No results where found. Did the rate limit exceed?')
 		return []
 	# search has results
 	links = []
 	for r in results:
-		mtch = re.match(r'.*?a\s*?href=\"(.*?)\".*?\>(.*?)\<\/a\>.*$', r, flags=re.IGNORECASE)
+		mtch = re.match(r'.*?span\s*?class=\"(.*?)\".*?\>(.*?)\<\/span\>.*$', r, flags=re.IGNORECASE)
 		if mtch is None:
 			continue
-		# parse url
-		url = mtch.group(1)
-		# clean url https://github.com/aviaryan/pythons/blob/master/Others/GoogleSearchLinks.py
-		url = re.sub(r'^.*?=', '', url, count=1) # prefixed over urls \url=q?
-		url = re.sub(r'\&amp.*$', '', url, count=1) # suffixed google things
-		url = unquote(url)
-		# url = re.sub(r'\%.*$', '', url) # NOT SAFE, causes issues with Youtube watch url
-		# parse name
+		# # parse url
+		# url = mtch.group(1)
+		# # clean url https://github.com/aviaryan/pythons/blob/master/Others/GoogleSearchLinks.py
+		# url = re.sub(r'^.*?=', '', url, count=1) # prefixed over urls \url=q?
+		# url = re.sub(r'\&amp.*$', '', url, count=1) # suffixed google things
+		# url = unquote(url)
+		# # url = re.sub(r'\%.*$', '', url) # NOT SAFE, causes issues with Youtube watch url
+		# # parse name
+		# name = prune_html(mtch.group(2))
+		# name = convert_unicode(name)
+		# # append to links
+		# if is_url(url): # can be google images result
+		# 	links.append((name, url))
 		name = prune_html(mtch.group(2))
-		name = convert_unicode(name)
-		# append to links
-		if is_url(url): # can be google images result
-			links.append((name, url))
+		links.append(name)
 	return links
 
 
