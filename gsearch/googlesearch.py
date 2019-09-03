@@ -129,7 +129,7 @@ def search(query, num_results=10):
 		# 	links.append((name, url))
 		name = prune_html(mtch.group(2))
 		links.append(name)
-	return links[0]
+	return links[0].encode('utf-8').decode('unicode-escape')
 
 
 def run():
