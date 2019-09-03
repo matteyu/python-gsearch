@@ -127,6 +127,7 @@ def search(query, num_results=10):
 		# # append to links
 		# if is_url(url): # can be google images result
 		# 	links.append((name, url))
+		print(mtch)
 		name = prune_html(mtch.group(2))
 		links.append(name)
 	return links
