@@ -104,14 +104,14 @@ def search(query, num_results=10):
 	of the format (name, url)
 	"""
 	data = download(query, num_results)
-	results = re.findall(r'\<div class="s"\>.*?\<\/div\>', data, re.IGNORECASE)
+	results = re.findall(r'\<div class="s".*?\>.*?\<\/div\>', data, re.IGNORECASE)
 	if results is None or len(results) == 0:
 		print('No results where found. Did the rate limit exceed?')
 		return []
 	# search has results
 	links = []
 	for r in results:
-		mtch = re.match(r'\<span class="st"\>.*?\<\/span\>', r, flags=re.IGNORECASE)
+		mtch = re.match(r'.*?span\s*?class=\"(.*?)\".*?\>(.*?)\<\/span\>.*$', r, flags=re.IGNORECASE)
 		if mtch is None:
 			continue
 		# # parse url
@@ -127,7 +127,6 @@ def search(query, num_results=10):
 		# # append to links
 		# if is_url(url): # can be google images result
 		# 	links.append((name, url))
-		print(mtch)
 		name = prune_html(mtch.group(2))
 		links.append(name)
 	return links
