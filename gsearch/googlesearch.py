@@ -128,8 +128,7 @@ def search(query, num_results=10):
 		# if is_url(url): # can be google images result
 		# 	links.append((name, url))
 		name = prune_html(mtch.group(2))
-		if name is not '' and name is not 'Ad':
-			links.append(name)
+		links.append(name)
 	return links
 
 
