@@ -104,7 +104,7 @@ def search(query, num_results=10):
 	of the format (name, url)
 	"""
 	data = download(query, num_results)
-	results = re.findall(r'\<div class=\"s\"\>.*?\<\/div\>', data, re.IGNORECASE)
+	results = re.findall(r'\<div class=\"(.*?)\".*?\>.*?\<\/div\>', data, re.IGNORECASE)
 	if results is None or len(results) == 0:
 		print('No results where found. Did the rate limit exceed?')
 		return []
